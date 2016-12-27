@@ -1,6 +1,13 @@
 import './index.css'
 
-import numeral from 'numeral';
+import { getUsers, deleteUser } from './api/userApi';
 
-const value = numeral(1000).format('$0,0.00');
-console.log(`I'd pay ${value} for an apple.`); // eslint-disable-line no-console
+getUsers().then(result => {
+  console.log(result); // eslint-disable-line no-console
+
+  deleteUser(result[0].id)
+    .then((result2) => {
+      console.log(result2); // eslint-disable-line no-console
+    });
+});
+

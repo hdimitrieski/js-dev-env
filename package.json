@@ -4,8 +4,8 @@
   "description": "JavaScript development environment",
   "scripts": {
     "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel open:src",
-    "start:watch": "npm run all --parallel security-check open:src lint:watch test:watch",
+    "start": "npm-run-all --parallel open:src start-mockapi",
+    "start:watch": "npm run all --parallel security-check open:src lint:watch test:watch start-mockapi",
     "open:src": "babel-node buildScripts/srcServer.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
@@ -13,7 +13,10 @@
     "localtunnel": "lt --port 3000",
     "share": "npm-run-all --parallel open:src localtunnel",
     "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.spec.js\"",
-    "test:watch": "npm run test --watch"
+    "test:watch": "npm run test --watch",
+    "generate-mock-data": "babel-node buildScripts/generateMockData",
+    "prestart-mockapi": "npm run generate-mock-data",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001"
   },
   "main": "index.js",
   "repository": {
@@ -39,6 +42,8 @@
     "express": "^4.14.0",
     "html-webpack-plugin": "^2.24.1",
     "jsdom": "^9.9.1",
+    "json-schema-faker": "^0.4.0",
+    "json-server": "^0.9.4",
     "localtunnel": "^1.8.2",
     "mocha": "^3.2.0",
     "nock": "^9.0.2",
@@ -51,6 +56,7 @@
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.14.0",
-    "webpack-md5-hash": "^0.0.5"
+    "webpack-md5-hash": "^0.0.5",
+    "whatwg-fetch": "^2.0.1"
   }
 }
