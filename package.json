@@ -16,7 +16,11 @@
     "test:watch": "npm run test --watch",
     "generate-mock-data": "babel-node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
-    "start-mockapi": "json-server --watch src/api/db.json --port 3001"
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist test lint",
+    "build": "babel-node buildScripts/build.js",
+    "postbuild": "babel-node buildScripts/distServer.js"
   },
   "main": "index.js",
   "repository": {
@@ -34,12 +38,14 @@
     "chai": "^3.5.0",
     "chalk": "^1.1.3",
     "cheerio": "^0.22.0",
+    "compression": "^1.6.2",
     "cross-env": "^3.1.3",
     "css-loader": "^0.26.1",
     "eslint": "^3.12.2",
     "eslint-plugin-import": "^2.2.0",
     "eslint-watch": "^2.1.14",
     "express": "^4.14.0",
+    "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.24.1",
     "jsdom": "^9.9.1",
     "json-schema-faker": "^0.4.0",

@@ -1,12 +1,22 @@
+<!--
+ This is a template for index.html. It uses EJS and HtmlWebpackPlugin to generate a different index.html
+ for each environment.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Setup Sentry for error logging -->
+    <% if (htmlWebpackPlugin.options.sentryDsn) { %>
+        <script src="https://cdn.ravenjs.com/3.9.1/raven.min.js"></script>
+        <script>
+          Raven.config('<%=htmlWebpackPlugin.options.sentryDsn%>').install();
+        </script>
+    <% } %>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    Hello
-
-    <script src="bundle.js"></script>
+    <h1>Hello</h1>
 </body>
 </html>
