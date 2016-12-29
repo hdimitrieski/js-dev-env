@@ -1,24 +1,34 @@
-import path from 'path';
-import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import WebpackMd5Hash from 'webpack-md5-hash';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import path from 'path';
+import projectConfig from './config/project';
+import webpack from 'webpack';
 
 export default {
   debug: true,
+
   devtool: 'source-map',
+
   noInfo: false,
+
   entry: {
-    vendor: path.resolve(__dirname, 'src/vendor'),
-    main: path.resolve(__dirname, 'src/index')
+    vendor: path.resolve(__dirname, `${projectConfig.sourceDirirectory}/vendor`),
+    main: path.resolve(__dirname, `${projectConfig.sourceDirirectory}/index`)
   },
+
   target: 'web',
+
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    path: path.resolve(__dirname, projectConfig.distDirectory),
+    publicPath: projectConfig.publicPath,
     filename: '[name].[chunkhash].js'
   },
+
   plugins: [
+    // Ensures consistent build hashes
+    new webpack.optimize.OccurenceOrderPlugin(),
+
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].[contenthash].css'),
 
@@ -32,7 +42,7 @@ export default {
 
     // Create HTML file that includes reference to bundle JS.
     new HtmlWebpackPlugin({
-      template: 'src/index.html',
+      template: `${projectConfig.sourceDirirectory}/index.html`,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -43,7 +53,7 @@ export default {
         minifyCSS: true,
         minifyURLs: true
       },
-      inject: true,
+      inject: 'body',
       // Properties defined here are available in index.html
       sentryDsn: 'https://274ca8bd38ff498697b1dc099ee2d553@sentry.io/125249'
     }),
@@ -54,10 +64,11 @@ export default {
     // Minify JS
     new webpack.optimize.UglifyJsPlugin()
   ],
+
   module: {
     loaders: [
-      {test: /\.js$/, exclude: /node_modules/, loaders: ['babel']},
-      {test: /\.css/, loader: ExtractTextPlugin.extract('css?sourceMap')}
+      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
+      { test: /\.css/, loader: ExtractTextPlugin.extract('css?sourceMap') }
     ]
   }
 };

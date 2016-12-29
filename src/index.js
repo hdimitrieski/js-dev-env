@@ -1,6 +1,6 @@
 import './index.css'
 
-import { getUsers, deleteUser } from './api/userApi';
+import { deleteUser, getUsers } from './api/userApi';
 
 getUsers().then(result => {
   console.log(result); // eslint-disable-line no-console
@@ -11,3 +11,5 @@ getUsers().then(result => {
     });
 });
 
+// TODO improve the webpack config
+// TODO implement automatic preduction deploy (use heroku and surge)

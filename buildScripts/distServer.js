@@ -7,7 +7,7 @@ import compression from 'compression';
 /* eslint-disable no-console */
 
 const port = process.env.PORT || 3000;
-const host = process.env.HOST ||'localhost';
+const host = process.env.HOST || 'localhost';
 const app = express();
 
 app.use(compression());
@@ -19,14 +19,12 @@ app.get('/', (req, res) => {
 
 app.get('/users', (req, res) => {
   // This should call the prod db
-  res.json([
-    {
-      id: 1,
-      firstName: 'Hristijan',
-      lastName: 'Dimitrieski',
-      email: 'k@gmail.com'
-    }
-  ]);
+  res.json([{
+    id: 1,
+    firstName: 'Hristijan',
+    lastName: 'Dimitrieski',
+    email: 'k@gmail.com'
+  }]);
 });
 
 app.listen(port, host, (err) => {
